@@ -9,6 +9,7 @@ import DecadeWidget from '@/components/widgets/DecadeWidget';
 import PopularityWidget from '@/components/widgets/PopularityWidget';
 import ArtistWidget from '@/components/widgets/ArtistWidget';
 import TrackWidget from '@/components/widgets/TrackWidget';
+import MoodWidget from '@/components/widgets/MoodWidget';
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -21,6 +22,7 @@ export default function DashboardPage() {
   const [selectedPopularity, setSelectedPopularity] = useState([0, 100]);
   const [selectedArtists, setSelectedArtists] = useState([]);
   const [selectedTracks, setSelectedTracks] = useState([]);
+  const [selectedMood, setSelectedMood] = useState([]);
 
 
   useEffect(() => {
@@ -75,6 +77,10 @@ export default function DashboardPage() {
             <PopularityWidget
                 selectedItems={selectedPopularity}
                 onSelect={setSelectedPopularity}
+            />
+            <MoodWidget
+                selectedItems={selectedMood}
+                onSelect={setSelectedMood}
             />
         </aside>
 
