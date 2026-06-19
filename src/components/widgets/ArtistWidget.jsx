@@ -46,59 +46,60 @@ export default function ArtistWidget({ selectedItems, onSelect }) {
 
   return (
     <div className="bg-gray-900 rounded-xl p-4">
-      <h2 className="text-white font-semibold mb-3">🎤 Artistas</h2>
-      <p className="text-gray-400 text-xs mb-3">Busca y selecciona hasta 5 artistas</p>
+        <h2 className="text-white font-semibold mb-3">🎤 Artistas</h2>
+        <p className="text-gray-400 text-xs mb-3">Busca y selecciona hasta 5 artistas</p>
 
-      <input
-        type="text"
-        placeholder="Buscar artista..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        className="w-full bg-gray-800 text-white text-sm rounded-lg px-3 py-2 mb-3 outline-none"
-      />
+        <input
+            type="text"
+            placeholder="Buscar artista..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full bg-gray-800 text-white text-sm rounded-lg px-3 py-2 mb-3 outline-none"
+        />
 
-      {loading && <p className="text-gray-400 text-xs mb-2">Buscando...</p>}
+        {loading && <p className="text-gray-400 text-xs mb-2">Buscando...</p>}
 
-      {results.length > 0 && (
-        <div className="flex flex-col gap-2 mb-3 max-h-40 overflow-y-auto">
-          {results.map(artist => (
-            <button
-              key={artist.id}
-              onClick={() => handleToggle(artist)}
-              className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors text-left ${
-                selectedItems.find(a => a.id === artist.id)
-                  ? 'bg-green-500 text-black'
-                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-              }`}
-            >
-              {artist.images?.[0]?.url && (
-                <img
-                  src={artist.images[0].url}
-                  alt={artist.name}
-                  className="w-8 h-8 rounded-full object-cover"
-                />
-              )}
-              <span className="text-sm">{artist.name}</span>
-            </button>
-          ))}
-        </div>
-      )}
-
-      {selectedItems.length > 0 && (
-        <div>
-          <p className="text-gray-400 text-xs mb-2">Seleccionados:</p>
-          <div className="flex flex-wrap gap-2">
-            {selectedItems.map(artist => (
-              <span
+        {results.length > 0 && (
+            <div className="flex flex-col gap-2 mb-3 max-h-40 overflow-y-auto">
+            {results.map(artist => (
+                <button
                 key={artist.id}
-                className="bg-green-500 text-black text-xs px-2 py-1 rounded-full"
-              >
-                {artist.name}
-              </span>
+                onClick={() => handleToggle(artist)}
+                className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors text-left ${
+                    selectedItems.find(a => a.id === artist.id)
+                    ? 'bg-green-500 text-black'
+                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                }`}
+                >
+                {artist.images?.[0]?.url && (
+                    <img
+                    src={artist.images[0].url}
+                    alt={artist.name}
+                    className="w-8 h-8 rounded-full object-cover"
+                    />
+                )}
+                <span className="text-sm">{artist.name}</span>
+                </button>
             ))}
-          </div>
-        </div>
-      )}
+            </div>
+        )}
+
+        {selectedItems.length > 0 && (
+            <div>
+                <p className="text-gray-400 text-xs mb-2">Seleccionados:</p>
+                <div className="flex flex-wrap gap-2">
+                {selectedItems.map(artist => (
+                    <button
+                    key={artist.id}
+                    onClick={() => onSelect(selectedItems.filter(a => a.id !== artist.id))}
+                    className="bg-green-500 text-black text-xs px-2 py-1 rounded-full hover:bg-red-500 transition-colors"
+                    >
+                    {artist.name} ✕
+                    </button>
+                ))}
+                </div>
+            </div>
+        )}
     </div>
   );
 }
