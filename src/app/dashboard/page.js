@@ -10,6 +10,7 @@ import PopularityWidget from '@/components/widgets/PopularityWidget';
 import ArtistWidget from '@/components/widgets/ArtistWidget';
 import TrackWidget from '@/components/widgets/TrackWidget';
 import MoodWidget from '@/components/widgets/MoodWidget';
+import PlaylistDisplay from '@/components/PlaylistDisplay';
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -86,7 +87,17 @@ export default function DashboardPage() {
 
         {/* Playlist */}
         <main className="flex-1">
-          <p className="text-gray-400 text-sm">Playlist aquí</p>
+            <PlaylistDisplay
+                preferences={{ 
+                artists: selectedArtists,
+                genres: selectedGenres,
+                decades: selectedDecades,
+                popularity: selectedPopularity,
+                moods: selectedMood,
+                tracks: selectedTracks
+                }}
+                userId={user.id}
+            />
         </main>
 
       </div>
