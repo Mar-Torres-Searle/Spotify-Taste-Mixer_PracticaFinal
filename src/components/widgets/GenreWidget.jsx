@@ -27,7 +27,7 @@ export default function GenreWidget({ selectedItems, onSelect }) {
     if (selectedItems.includes(genre)) {
       onSelect(selectedItems.filter(g => g !== genre));
     } else {
-      if (selectedItems.length >= 3) return;
+      if (selectedItems.length >= 4) return;
       onSelect([...selectedItems, genre]);
     }
   }
@@ -35,7 +35,7 @@ export default function GenreWidget({ selectedItems, onSelect }) {
   return (
     <div className="bg-gray-900 rounded-xl p-4">
       <h2 className="text-white font-semibold mb-3">🎸 Géneros</h2>
-      <p className="text-gray-400 text-xs mb-3">Selecciona hasta 3</p>
+      <p className="text-gray-400 text-xs mb-3">Selecciona hasta 4 géneros</p>
 
       <input
         type="text"

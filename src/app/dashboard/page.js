@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { isAuthenticated, getAccessToken, logout } from '@/lib/auth';
 import Header from '@/components/Header';
 import GenreWidget from '@/components/widgets/GenreWidget';
+import DecadeWidget from '@/components/widgets/DecadeWidget';
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -55,6 +56,10 @@ export default function DashboardPage() {
             <GenreWidget
                 selectedItems={selectedGenres}
                 onSelect={setSelectedGenres}
+            />
+            <DecadeWidget
+                selectedItems={selectedDecades}
+                onSelect={setSelectedDecades}
             />
         </aside>
 
