@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { isAuthenticated, getAccessToken, logout } from '@/lib/auth';
 import Header from '@/components/Header';
+import GenreWidget from '@/components/widgets/GenreWidget';
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -51,7 +52,10 @@ export default function DashboardPage() {
 
         {/*  Widgets */}
         <aside className="w-80 flex flex-col gap-4">
-          <p className="text-gray-400 text-sm">Widgets aquí</p>
+            <GenreWidget
+                selectedItems={selectedGenres}
+                onSelect={setSelectedGenres}
+            />
         </aside>
 
         {/* Playlist */}
