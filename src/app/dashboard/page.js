@@ -6,6 +6,7 @@ import { isAuthenticated, getAccessToken, logout } from '@/lib/auth';
 import Header from '@/components/Header';
 import GenreWidget from '@/components/widgets/GenreWidget';
 import DecadeWidget from '@/components/widgets/DecadeWidget';
+import PopularityWidget from '@/components/widgets/PopularityWidget';
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -60,6 +61,10 @@ export default function DashboardPage() {
             <DecadeWidget
                 selectedItems={selectedDecades}
                 onSelect={setSelectedDecades}
+            />
+            <PopularityWidget
+                selectedItems={selectedPopularity}
+                onSelect={setSelectedPopularity}
             />
         </aside>
 
