@@ -7,6 +7,7 @@ import Header from '@/components/Header';
 import GenreWidget from '@/components/widgets/GenreWidget';
 import DecadeWidget from '@/components/widgets/DecadeWidget';
 import PopularityWidget from '@/components/widgets/PopularityWidget';
+import ArtistWidget from '@/components/widgets/ArtistWidget';
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -57,6 +58,10 @@ export default function DashboardPage() {
             <GenreWidget
                 selectedItems={selectedGenres}
                 onSelect={setSelectedGenres}
+            />
+            <ArtistWidget
+                selectedItems={selectedArtists}
+                onSelect={setSelectedArtists}
             />
             <DecadeWidget
                 selectedItems={selectedDecades}
