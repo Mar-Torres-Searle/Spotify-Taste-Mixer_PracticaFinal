@@ -1,36 +1,147 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🎵 Spotify Taste Mixer
 
-## Getting Started
+Aplicación web que genera playlists personalizadas de Spotify basándose en las preferencias musicales del usuario mediante widgets configurables.
 
-First, run the development server:
+## 🚀 Tecnologías
+
+- [Next.js 16](https://nextjs.org/) — framework de React
+- [Tailwind CSS](https://tailwindcss.com/) — estilos
+- [Spotify Web API](https://developer.spotify.com/documentation/web-api) — datos musicales
+- [@hello-pangea/dnd](https://github.com/hello-pangea/dnd) — drag & drop
+
+## ⚙️ Instalación
+
+### 1. Clonar el repositorio
+
+```bash
+git clone https://github.com/Mar-Torres-Searle/Spotify-Taste-Mixer_PracticaFinal.git
+cd Spotify-Taste-Mixer_PracticaFinal
+```
+
+### 2. Instalar dependencias
+
+```bash
+npm install
+```
+
+### 3. Crear aplicación en Spotify Developer
+
+1. Ve a [Spotify for Developers](https://developer.spotify.com/dashboard)
+2. Crea una nueva app
+3. Añade `http://127.0.0.1:3000/auth/callback` como Redirect URI
+4. Guarda tu **Client ID** y **Client Secret**
+
+### 4. Configurar variables de entorno
+
+Crea un archivo `.env.local` en la raíz del proyecto:
+# 🎵 Spotify Taste Mixer
+
+Aplicación web que genera playlists personalizadas de Spotify basándose en las preferencias musicales del usuario mediante widgets configurables.
+
+## 🚀 Tecnologías
+
+- [Next.js 16](https://nextjs.org/) — framework de React
+- [Tailwind CSS](https://tailwindcss.com/) — estilos
+- [Spotify Web API](https://developer.spotify.com/documentation/web-api) — datos musicales
+- [@hello-pangea/dnd](https://github.com/hello-pangea/dnd) — drag & drop
+
+## ⚙️ Instalación
+
+### 1. Clonar el repositorio
+
+```bash
+git clone https://github.com/Mar-Torres-Searle/Spotify-Taste-Mixer_PracticaFinal.git
+cd Spotify-Taste-Mixer_PracticaFinal
+```
+
+### 2. Instalar dependencias
+
+```bash
+npm install
+```
+
+### 3. Crear aplicación en Spotify Developer
+
+1. Ve a [Spotify for Developers](https://developer.spotify.com/dashboard)
+2. Crea una nueva app
+3. Añade `http://127.0.0.1:3000/auth/callback` como Redirect URI
+4. Guarda tu **Client ID** y **Client Secret**
+
+### 4. Configurar variables de entorno
+
+Crea un archivo `.env.local` en la raíz del proyecto:
+# 🎵 Spotify Taste Mixer
+
+Aplicación web que genera playlists personalizadas de Spotify basándose en las preferencias musicales del usuario mediante widgets configurables.
+
+## 🚀 Tecnologías
+
+- [Next.js 16](https://nextjs.org/) — framework de React
+- [Tailwind CSS](https://tailwindcss.com/) — estilos
+- [Spotify Web API](https://developer.spotify.com/documentation/web-api) — datos musicales
+- [@hello-pangea/dnd](https://github.com/hello-pangea/dnd) — drag & drop
+
+## ⚙️ Instalación
+
+### 1. Clonar el repositorio
+
+```bash
+git clone https://github.com/Mar-Torres-Searle/Spotify-Taste-Mixer_PracticaFinal.git
+cd Spotify-Taste-Mixer_PracticaFinal
+```
+
+### 2. Instalar dependencias
+
+```bash
+npm install
+```
+
+### 3. Crear aplicación en Spotify Developer
+
+1. Ve a [Spotify for Developers](https://developer.spotify.com/dashboard)
+2. Crea una nueva app
+3. Añade `http://127.0.0.1:3000/auth/callback` como Redirect URI
+4. Guarda tu **Client ID** y **Client Secret**
+
+### 4. Configurar variables de entorno
+
+Crea un archivo `.env.local` en la raíz del proyecto:
+
+SPOTIFY_CLIENT_ID=tu_client_id
+SPOTIFY_CLIENT_SECRET=tu_client_secret
+NEXT_PUBLIC_SPOTIFY_CLIENT_ID=tu_client_id
+NEXT_PUBLIC_REDIRECT_URI=http://127.0.0.1:3000/auth/callback
+
+### 5. Arrancar el proyecto
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abre [http://127.0.0.1:3000](http://127.0.0.1:3000) en tu navegador.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## 🧩 Funcionalidades
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Widgets de preferencias
+- **🎸 Géneros** — selección múltiple de géneros musicales (hasta 3)
+- **🎤 Artistas** — búsqueda y selección de artistas favoritos (hasta 5)
+- **🎵 Canciones** — búsqueda y selección de canciones semilla
+- **📅 Décadas** — filtro por época musical
+- **📊 Popularidad** — filtro por nivel de popularidad
+- **😊 Mood** — selección de estado de ánimo y características de audio
 
-## Learn More
+### Gestión de playlist
+- ✨ Generación automática basada en preferencias
+- 🔄 Refrescar para obtener canciones distintas
+- ➕ Añadir más canciones a la playlist actual
+- ⭐ Marcar canciones como favoritas (guardadas en localStorage)
+- ✕ Eliminar canciones individuales
+- 🖱️ Reordenar canciones con drag & drop
+- 💾 Guardar playlist directamente en Spotify
 
-To learn more about Next.js, take a look at the following resources:
+## 🔐 Autenticación
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+La app usa OAuth 2.0 de Spotify con:
+- Validación CSRF mediante parámetro `state`
+- Refresh automático de token
+- Tokens almacenados de forma segura en localStorage
