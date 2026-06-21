@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { isAuthenticated, getAccessToken, logout } from '@/lib/auth';
+import { isAuthenticated, getAccessToken} from '@/lib/auth';
 import Header from '@/components/Header';
 import GenreWidget from '@/components/widgets/GenreWidget';
 import DecadeWidget from '@/components/widgets/DecadeWidget';
@@ -15,8 +15,6 @@ import PlaylistDisplay from '@/components/PlaylistDisplay';
 export default function DashboardPage() {
   const router = useRouter();
   const [user, setUser] = useState(null);
-
-  const [playlist, setPlaylist] = useState([]);
 
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [selectedDecades, setSelectedDecades] = useState([]);

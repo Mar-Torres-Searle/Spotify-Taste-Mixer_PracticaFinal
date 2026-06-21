@@ -58,6 +58,10 @@ export default function TrackWidget({ selectedItems, onSelect }) {
 
         {loading && <p className="text-gray-400 text-xs mb-2">Buscando...</p>}
 
+        {!loading && search.trim() && results.length === 0 && (
+            <p className="text-gray-400 text-xs mb-2">No se encontraron resultados</p>
+        )}
+
         {results.length > 0 && (
             <div className="flex flex-col gap-2 mb-3 max-h-40 overflow-y-auto">
             {results.map(track => (
@@ -70,12 +74,16 @@ export default function TrackWidget({ selectedItems, onSelect }) {
                     : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
                 }`}
                 >
-                {track.album?.images?.[0]?.url && (
+                {track.album?.images?.[0]?.url ? (
                     <img
                     src={track.album.images[0].url}
                     alt={track.name}
                     className="w-8 h-8 rounded object-cover"
                     />
+                ) : (
+                    <div className="w-8 h-8 rounded bg-gray-700 flex items-center justify-center flex-shrink-0">
+                        <span className="text-gray-400 text-xs">🎵</span>
+                    </div>
                 )}
                 <div>
                     <p className="text-sm font-medium">{track.name}</p>

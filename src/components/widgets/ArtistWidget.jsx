@@ -59,6 +59,10 @@ export default function ArtistWidget({ selectedItems, onSelect }) {
 
         {loading && <p className="text-gray-400 text-xs mb-2">Buscando...</p>}
 
+        {!loading && search.trim() && results.length === 0 && (
+            <p className="text-gray-400 text-xs mb-2">No se encontraron resultados</p>
+        )}
+
         {results.length > 0 && (
             <div className="flex flex-col gap-2 mb-3 max-h-40 overflow-y-auto">
             {results.map(artist => (
@@ -71,12 +75,16 @@ export default function ArtistWidget({ selectedItems, onSelect }) {
                     : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
                 }`}
                 >
-                {artist.images?.[0]?.url && (
+                {artist.images?.[0]?.url ? (
                     <img
                     src={artist.images[0].url}
                     alt={artist.name}
                     className="w-8 h-8 rounded-full object-cover"
                     />
+                ) : (
+                    <div className="w-8 h-8 rounded bg-gray-700 flex items-center justify-center flex-shrink-0">
+                        <span className="text-gray-400 text-xs">🎤</span>
+                    </div>
                 )}
                 <span className="text-sm">{artist.name}</span>
                 </button>

@@ -32,8 +32,7 @@ export function getSpotifyAuthUrl() {
     response_type: 'code',
     redirect_uri: redirectUri,
     state: state,
-    scope: scope,
-    show_dialog: 'true'
+    scope: scope
   });
 
   return `https://accounts.spotify.com/authorize?${params.toString()}`;

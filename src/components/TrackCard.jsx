@@ -36,12 +36,16 @@ export default function TrackCard({ track, onRemove }) {
     <div className="flex items-center gap-3 bg-gray-800 hover:bg-gray-700 rounded-lg px-4 py-3 transition-colors group">
       
       {/* Portada */}
-      {track.album?.images?.[0]?.url && (
+      {track.album?.images?.[0]?.url ? (
         <img
           src={track.album.images[0].url}
           alt={track.name}
           className="w-10 h-10 rounded object-cover flex-shrink-0"
         />
+      ) : (
+        <div className="w-10 h-10 rounded bg-gray-700 flex items-center justify-center flex-shrink-0">
+          <span className="text-gray-400 text-xs">🎵</span>
+        </div>
       )}
 
       {/* Título y artista */}
