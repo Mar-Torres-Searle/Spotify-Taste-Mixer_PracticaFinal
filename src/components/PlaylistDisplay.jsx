@@ -2,12 +2,14 @@
 
 import { useState } from 'react';
 import TrackCard from './TrackCard';
-import { generatePlaylist } from '@/lib/spotify';
+import { generatePlaylist, savePlaylistToSpotify } from '@/lib/spotify';
 
 export default function PlaylistDisplay({ preferences, userId }) {
   const [playlist, setPlaylist] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [saving, setSaving] = useState(false);
+  const [savedMessage, setSavedMessage] = useState(null);
 
   // Del enunciado: eliminar track
   function removeTrack(trackId) {
@@ -47,6 +49,19 @@ export default function PlaylistDisplay({ preferences, userId }) {
     }
   }
 
+  async function handleSave() {
+    setSaving(true);
+    setSavedMessage(null);
+    try {
+      const savedPlaylist = await savePlaylistToSpotify(userId, playlist);
+      setSavedMessage(`✅ Playlist "${savedPlaylist.name}" guardada en Spotify!`);
+    } catch (err) {
+      setSavedMessage('❌ Error al guardar la playlist. Inténtalo de nuevo.');
+    } finally {
+      setSaving(false);
+    }
+  }
+
   return (
     <div className="bg-gray-900 rounded-xl p-6 h-full">
 
@@ -69,24 +84,39 @@ export default function PlaylistDisplay({ preferences, userId }) {
         {playlist.length > 0 && (
           <>
             <button
-              onClick={handleGenerate}
-              disabled={loading}
-              className="bg-gray-700 hover:bg-gray-600 disabled:opacity-50 text-white text-sm px-4 py-2 rounded-full transition-colors"
-              title="Refrescar playlist"
+                onClick={handleGenerate}
+                disabled={loading}
+                className="bg-gray-700 hover:bg-gray-600 disabled:opacity-50 text-white text-sm px-4 py-2 rounded-full transition-colors"
+                title="Refrescar playlist"
             >
               🔄
             </button>
             <button
-              onClick={handleAddMore}
-              disabled={loading}
-              className="bg-gray-700 hover:bg-gray-600 disabled:opacity-50 text-white text-sm px-4 py-2 rounded-full transition-colors"
-              title="Añadir más canciones"
+                onClick={handleAddMore}
+                disabled={loading}
+                className="bg-gray-700 hover:bg-gray-600 disabled:opacity-50 text-white text-sm px-4 py-2 rounded-full transition-colors"
+                title="Añadir más canciones"
             >
               ➕
+            </button>
+
+            <button
+                onClick={handleSave}
+                disabled={saving || playlist.length === 0}
+                className="bg-green-500 hover:bg-green-600 disabled:opacity-50 text-black font-semibold px-4 py-2 rounded-full transition-colors text-sm"
+                title="Guardar en Spotify"
+            >
+                {saving ? '💾 Guardando...' : '💾 Guardar en Spotify'}
             </button>
           </>
         )}
       </div>
+
+      {savedMessage && (
+        <p className={`text-sm mb-4 ${savedMessage.startsWith('✅') ? 'text-green-400' : 'text-red-400'}`}>
+            {savedMessage}
+        </p>
+      )}
 
       {/* Error */}
       {error && (

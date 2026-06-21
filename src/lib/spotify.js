@@ -29,7 +29,6 @@ export async function generatePlaylist(preferences) {
       }
     );
     const data = await results.json();
-    console.log('Respuesta género:', data); 
     if (data.tracks?.items) {
       allTracks.push(...data.tracks.items);
     }
@@ -85,4 +84,55 @@ export async function generatePlaylist(preferences) {
   ).slice(0, 30);
 
   return uniqueTracks;
+}
+
+export async function savePlaylistToSpotify(userId, tracks) {
+  const token = getAccessToken();
+
+  // 1. Crear la playlist vacía
+  const createResponse = await fetch(
+    `https://api.spotify.com/v1/me/playlists`,
+    {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: 'Spotify Taste Mixer 🎵',
+        description: 'Playlist generada con Spotify Taste Mixer',
+        public: false
+      })
+    }
+  );
+
+  const playlist = await createResponse.json();
+
+  if (!createResponse.ok) {
+    throw new Error(playlist.error?.message || 'Error al crear la playlist');
+  }
+
+  // 2. Añadir las canciones a la playlist
+  const uris = tracks.map(track => track.uri);
+
+  await new Promise(resolve => setTimeout(resolve, 1000));
+
+  const addResponse = await fetch(
+    `https://api.spotify.com/v1/playlists/${playlist.id}/items`,
+    {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ uris })
+    }
+  );
+
+
+  if (!addResponse.ok) {
+    throw new Error('Error al añadir canciones a la playlist');
+  }
+
+  return playlist;
 }
