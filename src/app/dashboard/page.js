@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { isAuthenticated, getAccessToken} from '@/lib/auth';
+import { isAuthenticated, getAccessToken, refreshAccessToken} from '@/lib/auth';
 import Header from '@/components/Header';
 import GenreWidget from '@/components/widgets/GenreWidget';
 import DecadeWidget from '@/components/widgets/DecadeWidget';
@@ -22,6 +22,7 @@ export default function DashboardPage() {
   const [selectedArtists, setSelectedArtists] = useState([]);
   const [selectedTracks, setSelectedTracks] = useState([]);
   const [selectedMood, setSelectedMood] = useState([]);
+  const [moodSliders, setMoodSliders] = useState({ energy: 50, valence: 50, danceability: 50, acousticness: 50 });
 
 
   useEffect(() => {
@@ -31,12 +32,16 @@ export default function DashboardPage() {
     }
 
     const fetchUser = async () => {
-      const token = getAccessToken();
-      const response = await fetch('https://api.spotify.com/v1/me', {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      const data = await response.json();
-      setUser(data);
+        let token = getAccessToken();
+        if (!token) token = await refreshAccessToken();
+        if (!token) { router.push('/'); return; }
+
+        const response = await fetch('https://api.spotify.com/v1/me', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        const data = await response.json();
+        setUser(data);
     };
 
     fetchUser();
@@ -80,6 +85,8 @@ export default function DashboardPage() {
             <MoodWidget
                 selectedItems={selectedMood}
                 onSelect={setSelectedMood}
+                sliders={moodSliders}
+                onSlidersChange={setMoodSliders}
             />
         </aside>
 
@@ -92,7 +99,8 @@ export default function DashboardPage() {
                 decades: selectedDecades,
                 popularity: selectedPopularity,
                 moods: selectedMood,
-                tracks: selectedTracks
+                tracks: selectedTracks,
+                moodSliders: moodSliders
                 }}
                 userId={user.id}
             />

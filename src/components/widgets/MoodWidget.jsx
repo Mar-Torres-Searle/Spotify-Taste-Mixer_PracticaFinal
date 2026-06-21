@@ -9,7 +9,7 @@ const MOODS = [
   { label: '😌 Calm', value: 'calm' },
 ];
 
-export default function MoodWidget({ selectedItems, onSelect }) {
+export default function MoodWidget({ selectedItems, onSelect, sliders= { energy: 50, valence: 50, danceability: 50, acousticness: 50 }, onSlidersChange }) {
   const [energy, setEnergy] = useState(50);
   const [valence, setValence] = useState(50);
   const [danceability, setDanceability] = useState(50);
@@ -58,7 +58,10 @@ export default function MoodWidget({ selectedItems, onSelect }) {
             min="0"
             max="100"
             value={energy}
-            onChange={(e) => setEnergy(Number(e.target.value))}
+            onChange={(e) => {
+                setEnergy(Number(e.target.value));
+                onSlidersChange({ ...sliders, energy: Number(e.target.value) });
+            }}
             className="w-full accent-green-500"
           />
         </div>
@@ -73,7 +76,10 @@ export default function MoodWidget({ selectedItems, onSelect }) {
             min="0"
             max="100"
             value={valence}
-            onChange={(e) => setValence(Number(e.target.value))}
+            onChange={(e) => {
+                setValence(Number(e.target.value));
+                onSlidersChange({ ...sliders, valence: Number(e.target.value) });
+            }}
             className="w-full accent-green-500"
           />
         </div>
@@ -88,7 +94,10 @@ export default function MoodWidget({ selectedItems, onSelect }) {
             min="0"
             max="100"
             value={danceability}
-            onChange={(e) => setDanceability(Number(e.target.value))}
+            onChange={(e) => {
+                setDanceability(Number(e.target.value));
+                onSlidersChange({ ...sliders, danceability: Number(e.target.value) });
+            }}
             className="w-full accent-green-500"
           />
         </div>
@@ -103,7 +112,10 @@ export default function MoodWidget({ selectedItems, onSelect }) {
             min="0"
             max="100"
             value={acousticness}
-            onChange={(e) => setAcousticness(Number(e.target.value))}
+            onChange={(e) => {
+                setAcousticness(Number(e.target.value));
+                onSlidersChange({ ...sliders, acousticness: Number(e.target.value) });
+            }}
             className="w-full accent-green-500"
           />
         </div>

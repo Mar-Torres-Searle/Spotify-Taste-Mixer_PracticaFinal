@@ -1,7 +1,7 @@
-import { getAccessToken } from './auth'
+import { getAccessToken, refreshAccessToken } from './auth'
 
 export async function generatePlaylist(preferences) {
-  const { artists, genres, decades, popularity, tracks, moods } = preferences;
+  const { artists, genres, decades, popularity, tracks, moods, sliders } = preferences;
   let token = getAccessToken();
   if (!token) {
     token = await refreshAccessToken();
@@ -54,9 +54,17 @@ export async function generatePlaylist(preferences) {
   }
 
   // 4. Buscar por moods seleccionados
+  const moodQueries = {
+    'happy': 'feel good upbeat',
+    'sad': 'melancholic emotional ballad',
+    'energetic': 'high energy workout',
+    'calm': 'relaxing ambient chill'
+  };
+  
   for (const mood of moods) {
+    const query = moodQueries[mood] || mood;
     const results = await fetch(
-      `https://api.spotify.com/v1/search?type=track&q=${mood}&limit=10&offset=${offset}`,
+      `https://api.spotify.com/v1/search?type=track&q=${encodeURIComponent(query)}&limit=10&offset=${offset}`,
       { headers: { 'Authorization': `Bearer ${token}` } }
     );
     const data = await results.json();
@@ -65,7 +73,28 @@ export async function generatePlaylist(preferences) {
     }
   }
 
-  // 5. Filtrar por década
+  // 5. Filtrar por sliders de mood
+  if (sliders) {
+    if (sliders.energy > 70) {
+      allTracks = allTracks.filter(t => t.popularity >= 40);
+    } else if (sliders.energy < 30) {
+      allTracks = allTracks.filter(t => t.popularity < 60);
+    }
+
+    if (sliders.valence > 70) {
+      allTracks = allTracks.filter(t => !t.explicit);
+    }
+
+    if (sliders.danceability > 70) {
+      allTracks = allTracks.filter(t => t.popularity >= 30);
+    }
+
+    if (sliders.acousticness > 70) {
+      allTracks = allTracks.filter(t => t.popularity < 80);
+    }
+  }
+
+  // 6. Filtrar por década
   if (decades.length > 0) {
     allTracks = allTracks.filter(track => {
       const year = new Date(track.album.release_date).getFullYear();
@@ -76,7 +105,7 @@ export async function generatePlaylist(preferences) {
     });
   }
 
-  // 6. Filtrar por popularidad
+  // 7. Filtrar por popularidad
   if (popularity) {
     const [min, max] = popularity;
     allTracks = allTracks.filter(track => {
@@ -85,7 +114,7 @@ export async function generatePlaylist(preferences) {
     });
   }
 
-  // 7. Eliminar duplicados y limitar a 30 canciones
+  // 8. Eliminar duplicados y limitar a 30 canciones
   const uniqueTracks = Array.from(
     new Map(allTracks.map(track => [track.id, track])).values()
   ).slice(0, 30);
@@ -94,7 +123,14 @@ export async function generatePlaylist(preferences) {
 }
 
 export async function savePlaylistToSpotify(userId, tracks) {
-  const token = getAccessToken();
+  let token = getAccessToken();
+  if (!token) {
+    token = await refreshAccessToken();
+    if (!token) {
+      window.location.href = '/';
+      return null;
+    }
+  }
 
   // 1. Crear la playlist vacía
   const createResponse = await fetch(

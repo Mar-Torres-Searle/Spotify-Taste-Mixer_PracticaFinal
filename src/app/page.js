@@ -16,7 +16,6 @@ export default function Home() {
 
   const handleLogin = () => {
     const url = getSpotifyAuthUrl();
-    console.log('URL generada:', url);
     window.location.href = url;
   };
 
