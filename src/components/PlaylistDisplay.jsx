@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import TrackCard from './TrackCard';
 import { generatePlaylist, savePlaylistToSpotify } from '@/lib/spotify';
+import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 
 export default function PlaylistDisplay({ preferences, userId }) {
   const [playlist, setPlaylist] = useState([]);
@@ -60,6 +61,16 @@ export default function PlaylistDisplay({ preferences, userId }) {
     } finally {
       setSaving(false);
     }
+  }
+
+  function handleDragEnd(result) {
+    if (!result.destination) return;
+    
+    const items = Array.from(playlist);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+    
+    setPlaylist(items);
   }
 
   return (
@@ -130,15 +141,35 @@ export default function PlaylistDisplay({ preferences, userId }) {
           <p className="text-gray-400">Selecciona tus preferencias en los widgets y genera tu playlist</p>
         </div>
       ) : (
-        <div className="flex flex-col gap-2 overflow-y-auto max-h-[600px]">
-          {playlist.map(track => (
-            <TrackCard
-              key={track.id}
-              track={track}
-              onRemove={removeTrack}
-            />
-          ))}
-        </div>
+        <DragDropContext onDragEnd={handleDragEnd}>
+            <Droppable droppableId="playlist">
+                {(provided) => (
+                <div
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                    className="flex flex-col gap-2 overflow-y-auto max-h-[600px]"
+                >
+                    {playlist.map((track, index) => (
+                    <Draggable key={track.id} draggableId={track.id} index={index}>
+                        {(provided) => (
+                        <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                        >
+                            <TrackCard
+                            track={track}
+                            onRemove={removeTrack}
+                            />
+                        </div>
+                        )}
+                    </Draggable>
+                    ))}
+                    {provided.placeholder}
+                </div>
+                )}
+            </Droppable>
+        </DragDropContext>
       )}
 
     </div>
