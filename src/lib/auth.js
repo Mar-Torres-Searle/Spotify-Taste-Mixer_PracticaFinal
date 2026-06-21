@@ -38,6 +38,28 @@ export function getSpotifyAuthUrl() {
   return `https://accounts.spotify.com/authorize?${params.toString()}`;
 }
 
+//refresh token
+export async function refreshAccessToken() {
+  const refreshToken = localStorage.getItem('spotify_refresh_token');
+  if (!refreshToken) return null;
+
+  const response = await fetch('/api/refresh-token', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ refresh_token: refreshToken })
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) return null;
+
+  localStorage.setItem('spotify_token', data.access_token);
+  const expirationTime = Date.now() + data.expires_in * 1000;
+  localStorage.setItem('spotify_token_expiration', expirationTime.toString());
+
+  return data.access_token;
+}
+
 // Guardar tokens en localStorage
 export function saveTokens(accessToken, refreshToken, expiresIn) {
   const expirationTime = Date.now() + expiresIn * 1000;

@@ -2,7 +2,14 @@ import { getAccessToken } from './auth'
 
 export async function generatePlaylist(preferences) {
   const { artists, genres, decades, popularity, tracks, moods } = preferences;
-  const token = getAccessToken();
+  let token = getAccessToken();
+  if (!token) {
+    token = await refreshAccessToken();
+    if (!token) {
+      window.location.href = '/';
+      return [];
+    }
+  }
   const offset = Math.floor(Math.random() * 50);
   let allTracks = [];
 
