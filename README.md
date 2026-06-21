@@ -123,7 +123,7 @@ Abre [http://127.0.0.1:3000](http://127.0.0.1:3000) en tu navegador.
 ## 🧩 Funcionalidades
 
 ### Widgets de preferencias
-- **🎸 Géneros** — selección múltiple de géneros musicales (hasta 3)
+- **🎸 Géneros** — selección múltiple de géneros musicales (hasta 4)
 - **🎤 Artistas** — búsqueda y selección de artistas favoritos (hasta 5)
 - **🎵 Canciones** — búsqueda y selección de canciones semilla
 - **📅 Décadas** — filtro por época musical

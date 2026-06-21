@@ -1,7 +1,7 @@
 import { getAccessToken, refreshAccessToken } from './auth'
 
 export async function generatePlaylist(preferences) {
-  const { artists, genres, decades, popularity, tracks, moods, sliders } = preferences;
+  const { artists, genres, decades, popularity, tracks, moods, moodSliders } = preferences;
   let token = getAccessToken();
   if (!token) {
     token = await refreshAccessToken();
@@ -74,22 +74,22 @@ export async function generatePlaylist(preferences) {
   }
 
   // 5. Filtrar por sliders de mood
-  if (sliders) {
-    if (sliders.energy > 70) {
+  if (moodSliders) {
+    if (moodSliders.energy > 70) {
       allTracks = allTracks.filter(t => t.popularity >= 40);
-    } else if (sliders.energy < 30) {
+    } else if (moodSliders.energy < 30) {
       allTracks = allTracks.filter(t => t.popularity < 60);
     }
 
-    if (sliders.valence > 70) {
+    if (moodSliders.valence > 70) {
       allTracks = allTracks.filter(t => !t.explicit);
     }
 
-    if (sliders.danceability > 70) {
+    if (moodSliders.danceability > 70) {
       allTracks = allTracks.filter(t => t.popularity >= 30);
     }
 
-    if (sliders.acousticness > 70) {
+    if (moodSliders.acousticness > 70) {
       allTracks = allTracks.filter(t => t.popularity < 80);
     }
   }
