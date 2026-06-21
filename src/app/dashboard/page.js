@@ -55,10 +55,10 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen bg-black text-white">
       <Header user={user} />
-      <div className="flex gap-6 p-6">
+      <div className="flex flex-col sm:flex-row gap-6 p-6">
 
         {/*  Widgets */}
-        <aside className="w-80 flex flex-col gap-4">
+        <aside className="w-full sm:w-80 flex flex-col gap-4">
             <GenreWidget
                 selectedItems={selectedGenres}
                 onSelect={setSelectedGenres}

@@ -74,7 +74,7 @@ export default function PlaylistDisplay({ preferences, userId }) {
   }
 
   return (
-    <div className="bg-gray-900 rounded-xl p-6 h-full">
+    <div className="bg-gray-900 rounded-xl p-6 h-full flex flex-col">
 
       {/* Cabecera */}
       <div className="flex items-center justify-between mb-6">
@@ -83,43 +83,42 @@ export default function PlaylistDisplay({ preferences, userId }) {
       </div>
 
       {/* Botones */}
-      <div className="flex gap-3 mb-6">
+      <div className="flex flex-col gap-2 mb-6">
         <button
-          onClick={handleGenerate}
-          disabled={loading}
-          className="flex-1 bg-green-500 hover:bg-green-600 disabled:opacity-50 text-black font-semibold py-2 rounded-full transition-colors"
+            onClick={handleGenerate}
+            disabled={loading}
+            className="w-full bg-green-500 hover:bg-green-600 disabled:opacity-50 text-black font-semibold py-2 rounded-full transition-colors"
         >
-          {loading ? 'Generando...' : '✨ Generar Playlist'}
+            {loading ? 'Generando...' : '✨ Generar Playlist'}
         </button>
 
         {playlist.length > 0 && (
-          <>
+            <div className="flex gap-2">
             <button
                 onClick={handleGenerate}
                 disabled={loading}
-                className="bg-gray-700 hover:bg-gray-600 disabled:opacity-50 text-white text-sm px-4 py-2 rounded-full transition-colors"
+                className="flex-1 bg-gray-700 hover:bg-gray-600 disabled:opacity-50 text-white text-sm px-4 py-2 rounded-full transition-colors"
                 title="Refrescar playlist"
             >
-              🔄
+                🔄 Refrescar
             </button>
             <button
                 onClick={handleAddMore}
                 disabled={loading}
-                className="bg-gray-700 hover:bg-gray-600 disabled:opacity-50 text-white text-sm px-4 py-2 rounded-full transition-colors"
+                className="flex-1 bg-gray-700 hover:bg-gray-600 disabled:opacity-50 text-white text-sm px-4 py-2 rounded-full transition-colors"
                 title="Añadir más canciones"
             >
-              ➕
+                ➕ Añadir más
             </button>
-
             <button
                 onClick={handleSave}
                 disabled={saving || playlist.length === 0}
-                className="bg-green-500 hover:bg-green-600 disabled:opacity-50 text-black font-semibold px-4 py-2 rounded-full transition-colors text-sm"
+                className="flex-1 bg-green-500 hover:bg-green-600 disabled:opacity-50 text-black font-semibold px-4 py-2 rounded-full transition-colors text-sm"
                 title="Guardar en Spotify"
             >
-                {saving ? '💾 Guardando...' : '💾 Guardar en Spotify'}
+                {saving ? '💾 Guardando...' : '💾 Guardar'}
             </button>
-          </>
+            </div>
         )}
       </div>
 
@@ -140,14 +139,14 @@ export default function PlaylistDisplay({ preferences, userId }) {
           <p className="text-4xl mb-4">🎵</p>
           <p className="text-gray-400">Selecciona tus preferencias en los widgets y genera tu playlist</p>
         </div>
-      ) : (
+        ) : (
         <DragDropContext onDragEnd={handleDragEnd}>
             <Droppable droppableId="playlist">
                 {(provided) => (
                 <div
                     {...provided.droppableProps}
                     ref={provided.innerRef}
-                    className="flex flex-col gap-2 overflow-y-auto max-h-[600px]"
+                    className="flex flex-col gap-2 overflow-y-auto flex-1"
                 >
                     {playlist.map((track, index) => (
                     <Draggable key={track.id} draggableId={track.id} index={index}>
